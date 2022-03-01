@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 /**
  * customerテーブルCRUD用　RestController
@@ -31,8 +31,8 @@ public class CustomerController {
 	 * @param id 顧客ID
 	 * @return 顧客IDに該当する顧客データ。該当する顧客がいないときはnull。
 	 */
-	@GetMapping("/read")
-	public Map<String, Object> read(@RequestParam("id") int id) {
+	@GetMapping("/{id}")
+	public Map<String, Object> customer(@PathVariable("id") int id) {
 		Customer customer = customerService.read(id);
 		Map<String, Object> response = new HashMap<>();
 		response.put("data", customer);
@@ -45,7 +45,7 @@ public class CustomerController {
 	 * @param customer 顧客データ
 	 * @return 登録成功時　data=true、登録失敗時はエラー処理となる。
 	 */
-	@PostMapping("/create")
+	@PostMapping("")
 	public Map<String, Object> create(@RequestBody Customer customer) {
 		boolean isResult = customerService.create(customer);
 		Map<String, Object> response = new HashMap<>();
@@ -59,7 +59,7 @@ public class CustomerController {
 	 * @param customer 顧客データ
 	 * @return 更新成功時　data=true、更新対象がない時　data=false
 	 */
-	@PutMapping("/update")
+	@PutMapping("")
 	public Map<String, Object> update(@RequestBody Customer customer) {
 		boolean isResult = customerService.update(customer);
 		Map<String, Object> response = new HashMap<>();
@@ -73,8 +73,8 @@ public class CustomerController {
 	 * @param id 顧客ID
 	 * @return 削除成功時　data=true、削除対象がない時　data=false
 	 */
-	@DeleteMapping("/delete")
-	public Map<String, Object> delete(@RequestParam("id") int id) {
+	@DeleteMapping("/{id}")
+	public Map<String, Object> delete(@PathVariable("id") int id) {
 		boolean isResult = customerService.delete(id);
 		Map<String, Object> response = new HashMap<>();
 		response.put("data", isResult);
